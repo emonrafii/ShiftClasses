@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Home</title>
+</head>
+<body>
+    <section>
+        <div class="container">
+            <div class="wrapper">
+                <div class="content">
+                    <h2><div class="dot"></div>Available for <%= selectedDay %></h2>
+                    <ul>
+                        <li><a href="/?day=SAT" id="<%= selectedDay === 'SAT' ? 'active' : '' %>">SAT</a></li>
+                        <li><a href="/?day=SUN" id="<%= selectedDay === 'SUN' ? 'active' : '' %>">SUN</a></li>
+                        <li><a href="/?day=MON" id="<%= selectedDay === 'MON' ? 'active' : '' %>">MON</a></li>
+                        <li><a href="/?day=TUE" id="<%= selectedDay === 'TUE' ? 'active' : '' %>">TUE</a></li>
+                        <li><a href="/?day=WED" id="<%= selectedDay === 'WED' ? 'active' : '' %>">WED</a></li>
+                        <li><a href="/?day=THU" id="<%= selectedDay === 'THU' ? 'active' : '' %>">THU</a></li>
+                    </ul>
+                    <div class="box">
+                        <% available.forEach(item => { %>
+                        <div class="item" style="background-color: #fdf3f1">
+                            <div class="info">
+                                <p><img id="icon" src="/assets/classroom.svg" alt="">Room: <%= item.room %></p>
+                                <h3><img id="icon" src="/assets/clock.svg" alt=""><%= item.slot %></h3>
+                            </div>
+                            <a href="">make</a> 
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="bg"><img src="/assets/bg.gif" alt=""></div>
+            </div>
+        </div>
+    </section>
+    <script></script>
+</body>
+</html>

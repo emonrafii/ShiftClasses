@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Admin Home</title>
+</head>
+<body>
+    <section>
+        <div class="container">
+            <div class="wrapper">
+                <div class="inner">
+                    <div class="navlinks">
+                        <h3 id="homeBtn" style="cursor: pointer;">ShiftClasses</h3>
+                        <ul>
+                            <li><a href=""  id="routineBtn">Routine</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="contentBody">
+                        <div class="child active">
+                            <div class="innerBg" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                <img src="/assets/dasboardbg.gif" alt="">
+                                <p>No Current Request</p>
+                            </div>
+                        </div>
+                        <div class="child">
+                            <h2>Input Routine</h2>
+                            <form action="/routineInput" style="margin-top: .5rem;" method="post">
+                                <input type="hidden" name="day" id="dayInput" value="SAT">
+                                <ul class="routineUl">
+                                    <li><button type="button" class="dayLink active">SAT</button></li>
+                                    <li><button type="button" class="dayLink active">SUN</button></li>
+                                    <li><button type="button" class="dayLink active">MON</button></li>
+                                    <li><button type="button" class="dayLink active">TUE</button></li>
+                                    <li><button type="button" class="dayLink active">WED</button></li>
+                                    <li><button type="button" class="dayLink active">THU</button></li>
+                                </ul>
+                                <select name="slot" id="slot" required>
+                                    <option value="">Select Slot</option>
+                                    <option value="1">Slot-1 (8:00-8:50)</option>
+                                    <option value="2">Slot-2 (9:00-9:50)</option>
+                                    <option value="3">Slot-3 (10:00-10:50)</option>
+                                    <option value="4">Slot-4 (11:30-12:20)</option>
+                                    <option value="5">Slot-5 (12:30-1:20)</option>
+                                    <option value="6">Slot-6 (1:30-2:20)</option>
+                                    <option value="7">Slot-7 (2:30-3:20)</option>
+                                    <option value="8">Slot-8 (3:30-4:20)</option>
+                                    <option value="9">Slot-9 (4:30-5:20)</option>
+                                </select>
+                                <input type="text" name="room" placeholder="Room No">
+                                <input type="text" name="course_code" placeholder="Course Code">
+                                <input type="text" name="course_title" placeholder="Course Title">
+                                <input type="submit" value="submit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        const routineBtn = document.getElementById("routineBtn");
+        const homeBtn = document.getElementById("homeBtn");
+        const children = document.querySelectorAll(".child");
+        routineBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            children.forEach(child => child.classList.remove("active"));
+            children[1].classList.add("active");
+        });
+        homeBtn.addEventListener("click", function() {
+            children.forEach(child => child.classList.remove("active"));
+            children[0].classList.add("active");
+        });
+
+        //for routine input dayLink
+        const dayLinks = document.querySelectorAll(".dayLink");
+        const dayInput = document.getElementById("dayInput");
+        dayLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                dayLinks.forEach(l => l.classList.remove("activeDay"));
+                this.classList.add("activeDay");
+                dayInput.value = this.innerText;
+            });
+        });
+    </script>
+</body>
+</html>
