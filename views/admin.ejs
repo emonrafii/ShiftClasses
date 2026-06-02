@@ -18,12 +18,35 @@
                             <li><a href="/logout">Logout</a></li>
                         </ul>
                     </div>
-                    <div class="contentBody">
+                    <div class="contentBody"> 
                         <div class="child active">
-                            <div class="innerBg" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                                <img src="/assets/dasboardbg.gif" alt="">
-                                <p>No Current Request</p>
-                            </div>
+                            <% if (requests.length === 0) { %>
+                                <div class="innerBg" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                    <img src="/assets/dasboardbg.gif" alt="">
+                                    <p>No Current Request</p>
+                                </div>
+                            <% } else { %>
+                                <% requests.forEach(req => { %>
+                                    <div style="padding:10px; margin:10px 0; border-radius:10px; background:#f5f5f5;">
+                                        <p><b>Day:</b> <%= req.day %></p>
+                                        <p><b>Room:</b> <%= req.room %></p>
+                                        <p><b>Slot:</b> <%= req.slot %></p>
+
+                                        <div style="margin-top:10px; display:flex; gap:10px;">
+                                            <form action="/approveRequest" method="POST">
+                                                <input type="hidden" name="id" value="<%= req._id %>">
+                                                <button style="background: none; border: none; text-decoration: underline;" type="submit" style="background:green; color:white;">Accept</button>
+                                            </form>
+
+                                            <form action="/rejectRequest" method="POST">
+                                                <input type="hidden" name="id" value="<%= req._id %>">
+                                                <button style="background: none; border: none; text-decoration: underline;" type="submit" style="background:red; color:white;">Reject</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <% }) %>
+
+                            <% } %>
                         </div>
                         <div class="child">
                             <h2>Input Routine</h2>
@@ -56,6 +79,7 @@
                             </form>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

@@ -27,7 +27,12 @@
                                 <p><img id="icon" src="/assets/classroom.svg" alt="">Room: <%= item.room %></p>
                                 <h3><img id="icon" src="/assets/clock.svg" alt=""><%= item.slot %></h3>
                             </div>
-                            <a href="">make</a> 
+                            <form action="/makeRequest" method="POST">
+                                <input type="hidden" name="day" value="<%= selectedDay %>">
+                                <input type="hidden" name="slot" value="<%= item.slotId %>">
+                                <input type="hidden" name="room" value="<%= item.room %>">
+                                <button type="submit" style="background: none; border: none;">Make</button>
+                            </form>
                         </div>
                         <% }) %>
                     </div>

@@ -36,10 +36,11 @@ const redirectIfLogin = (req, res, next)=>{
     }
     next();
 };
-
 app.get('/', async (req, res) => {
     const selectedDay = req.query.day || "SAT";
-    const routines = await routineModel.find({ day: selectedDay });
+    const routines = await routineModel.find({
+        day: selectedDay,
+    });
     const booked = new Set(
         routines.map(r => `${r.room}-${r.slot}`)
     );
@@ -49,12 +50,13 @@ app.get('/', async (req, res) => {
             if (!booked.has(`${room}-${slot.id}`)) {
                 available.push({
                     room,
+                    slotId: slot.id, 
                     slot: slot.time
                 });
             }
         }
     }
-    res.render('index', {selectedDay, available, SLOTS, ROOMS});
+    res.render('index', { selectedDay, available, SLOTS, ROOMS });
 });
 app.get('/adminLogin', redirectIfLogin, (req, res)=>{
     res.render('adminLogin')
@@ -68,19 +70,40 @@ app.post('/adminLogin', async (req, res)=>{
         res.redirect('/adminLogin');
     }
 })
-app.get('/admin', (req, res)=>{
-    res.render('admin')
-})
+app.get('/admin', async (req, res) => {
+    const requests = await routineModel.find({ status: 'pending' });
+    res.render('admin', { requests });
+});
 app.post('/routineInput', async (req, res)=>{
     const rouine = await routineModel.create({
         day: req.body.day,
-        slot: req.body.slot,
+        slot: Number(req.body.slot),
         room: req.body.room,
         course_code: req.body.course_code,
         course_title: req.body.course_title
     })
     res.redirect('/admin');
 })
+app.post('/makeRequest', async (req, res) => {
+    await routineModel.create({
+        day: req.body.day,
+        slot: Number(req.body.slot),
+        room: req.body.room,
+        status: 'pending'
+    });
+    res.redirect('/');
+});
+app.post('/approveRequest', async (req, res) => {
+    await routineModel.findByIdAndUpdate(req.body.id, {
+        status: 'approved'
+    });
+    res.redirect('/admin');
+});
+app.post('/rejectRequest', async (req, res) => {
+    await routineModel.findByIdAndDelete(req.body.id);
+    res.redirect('/admin');
+});
+
 app.get('/logout', (req, res)=>{
     res.clearCookie('token');
     res.redirect('/adminLogin');
